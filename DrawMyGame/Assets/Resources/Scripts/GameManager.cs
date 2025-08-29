@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject BG;
     public GameObject IntroCanvas;
+    public DialogueRunner dialogueRunner;
+    public GameObject EndCanvas;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,7 +32,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (paintingCanvas.transform.childCount == 0)
+        {
+            paintingCanvas.SetActive(false);
+            //play end dialogue
+            dialogueRunner.StartDialogue("EndDialogue");
+            
+            
+        }
+    }
+    [YarnCommand("EndCanvas")]
+    public void OpenPaintingCanvas()
+    {
+        EndCanvas.SetActive(true);
     }
 
     public void ChoosePaining()
@@ -41,13 +55,19 @@ public class GameManager : MonoBehaviour
         Debug.Log("Selected Painting: " + selectedPainting);
         paintingCanvas.SetActive(false);
         //find object with selected painting name and disable it
-        foreach (var children in paintingCanvas.GetComponentsInChildren<Transform>(true))
+        if (paintingCanvas.transform.childCount > 0)
         {
-            if (children.gameObject.name == selectedPainting)
+            foreach (var children in paintingCanvas.GetComponentsInChildren<Transform>(true))
             {
-                children.gameObject.SetActive(false);
+                if (children.gameObject.name == selectedPainting)
+                {
+                    children.gameObject.SetActive(false);
+                }
             }
-            
+        }
+        else
+        {
+            Debug.Log("No children found in painting canvas");
         }
         //instantiate the big painting
         Sprite PaintingSprite = Resources.Load<Sprite>("Sprites/" + selectedPainting + "Large");
