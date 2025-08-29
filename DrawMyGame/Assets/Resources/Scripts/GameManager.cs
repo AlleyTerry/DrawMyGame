@@ -1,6 +1,9 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Yarn;
+using Yarn.Unity;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject PaintingUI;
 
     public GameObject BG;
+    public GameObject IntroCanvas;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,6 +40,15 @@ public class GameManager : MonoBehaviour
         selectedPainting = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log("Selected Painting: " + selectedPainting);
         paintingCanvas.SetActive(false);
+        //find object with selected painting name and disable it
+        foreach (var children in paintingCanvas.GetComponentsInChildren<Transform>(true))
+        {
+            if (children.gameObject.name == selectedPainting)
+            {
+                children.gameObject.SetActive(false);
+            }
+            
+        }
         //instantiate the big painting
         Sprite PaintingSprite = Resources.Load<Sprite>("Sprites/" + selectedPainting + "Large");
         bigPainting.GetComponent<Image>().sprite= PaintingSprite;
@@ -55,5 +68,19 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<LineGenerator>().canDraw = true;
         BG.SetActive(true);
         
+    }
+    
+    [YarnCommand("openIntroCanvas")]
+    public void OpenIntroCanvas()
+    {
+        
+        IntroCanvas.SetActive(true);
+    }
+    
+    public void CloseIntroCanvas()
+    {
+        
+        IntroCanvas.SetActive(false);
+        paintingCanvas.SetActive(true);
     }
 }

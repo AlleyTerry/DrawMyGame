@@ -1,0 +1,14 @@
+﻿title: DrawingDialogue
+---
+Fellow Thief: “Finally you’re here!”
+Fellow Thief: “Is it common to leave a fellow thief like this waiting for so long?”
+Fellow Thief: “What? You’re new here?”
+Fellow Thief: “Goddamn budget cuts-”
+Fellow Thief: “The Agency told me I was only getting the best of the best!”
+Fellow Thief: “I do hope for both our sakes you know what you’re doing.”
+Fellow Thief: “Here, the Debrief from the higher ups.”
+Fellow Thief: “Make it Quick”
+<<openIntroCanvas GameManager>>
+
+
+===

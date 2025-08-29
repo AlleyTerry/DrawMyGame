@@ -8,6 +8,7 @@ public class Screenshot : MonoBehaviour
     public GameObject paintingsParent;
     public GameObject BG;
     public GameObject EndDrawingSeshButtontton;
+    GameManager gameManager;
     
     
    public void TakeScreenshot()
@@ -32,5 +33,9 @@ public class Screenshot : MonoBehaviour
            Destroy(child.gameObject);
        }
        BG.SetActive(false);
+       EndDrawingSeshButtontton.SetActive(false);
+         gameManager = FindObjectOfType<GameManager>();
+       gameManager.paintingCanvas.SetActive(true);
+         
    }
 }
