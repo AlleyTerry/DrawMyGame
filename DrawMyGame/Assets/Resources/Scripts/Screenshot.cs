@@ -11,6 +11,7 @@ public class Screenshot : MonoBehaviour
     public GameObject EndDrawingSeshButtontton;
     GameManager gameManager;
     public int screenshotCount = 0;
+    public int paintingCount = 0;
 
 
     private IEnumerator SetUpScreenshot()
@@ -24,6 +25,9 @@ public class Screenshot : MonoBehaviour
         ScreenCapture.CaptureScreenshot(filename, 5);
         Debug.Log("Screenshot taken: " + filename);
         //save to screenshots folder
+      
+        //BG.SetActive(false);
+        StartCoroutine(WaitAndEndSession());
         
         
     }
@@ -32,13 +36,23 @@ public class Screenshot : MonoBehaviour
    { 
        UICanvas.SetActive(false);
          StartCoroutine(SetUpScreenshot());
-         EndDrawingSeshButtontton.SetActive(true);
+         //EndDrawingSeshButtontton.SetActive(true);
          screenshotCount++;
-       
+         //endDrawingSession();
+
    }
 
+   private IEnumerator WaitAndEndSession()
+   {
+       yield return new WaitForEndOfFrame();
+       
+       EndDrawingSeshButtontton.SetActive(true);
+       
+       
+   }
    public void endDrawingSession()
    {
+       BG.SetActive(false);
        //UICanvas.SetActive(true);
        saveButton.SetActive(false);
        //delete all children of paintings parent
@@ -46,10 +60,15 @@ public class Screenshot : MonoBehaviour
        {
            Destroy(child.gameObject);
        }
-       BG.SetActive(false);
-       EndDrawingSeshButtontton.SetActive(false);
+       //EndDrawingSeshButtontton.SetActive(false);
        gameManager = FindObjectOfType<GameManager>();
        gameManager.paintingCanvas.SetActive(true);
-         
+       EndDrawingSeshButtontton.SetActive(false);
+       paintingCount++;
+       if (paintingCount == 3)
+       {
+              gameManager.dialogueRunner.StartDialogue("EndDialogue");
+           
+       }
    }
 }

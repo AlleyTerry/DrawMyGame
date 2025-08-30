@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject EndCanvas;
     
     
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,15 +34,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (paintingCanvas.transform.childCount == 0)
-        {
-            paintingCanvas.SetActive(false);
-            //play end dialogue
-            dialogueRunner.StartDialogue("EndDialogue");
-            
-            
-        }
+        
     }
+
     [YarnCommand("EndCanvas")]
     public void OpenPaintingCanvas()
     {
@@ -102,5 +98,11 @@ public class GameManager : MonoBehaviour
         
         IntroCanvas.SetActive(false);
         paintingCanvas.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+        
     }
 }
